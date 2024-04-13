@@ -1,0 +1,93 @@
+import React from 'react'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import MainLayout from '../Layout/MainLayout/MainLayout'
+import FunctionList from '../Page/User/FunctionList'
+import RegisterLayout from '../Layout/Register_LoginLayout'
+import Login from '../Page/Login'
+import Register from '../Page/Register/Register'
+import Admin from '../Page/Admin'
+import AdminLayout from '../Layout/AdminLayout'
+import Led from '../Page/User/FunctionList/Led'
+import ParkingLot from '../Page/User/FunctionList/ParkingLot'
+// const isAuthenticated = true
+function ProtectRoute() {
+  // login : true , log out : false
+
+  // route đã login thì outlet , chưa login thì navigate login
+  // true : sẽ đăng nhập -> outlet chứa children đã đăng nhập >< login
+  const isAuthenticated = true
+  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+}
+// >< ProtectRoute
+function RejectedRoute() {
+  // trường hợp false
+  const isAuthenticated = false
+
+  // chưa login thì cho vào outLet , còn rồi thì trang sản phẩm
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+}
+export default function useRouterElement() {
+  const routerElements = useRoutes([
+    {
+      path: '',
+      element: <ProtectRoute />,
+      children: [
+        {
+          path: '/user',
+          element: (
+            <MainLayout>
+              <FunctionList />
+            </MainLayout>
+          )
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <RejectedRoute />,
+      children: [
+        {
+          path: '/login',
+          element: (
+            <RegisterLayout>
+              <Login />
+            </RegisterLayout>
+          )
+        },
+        {
+          path: '/Register',
+          element: (
+            <RegisterLayout>
+              <Register />
+            </RegisterLayout>
+          )
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectRoute />,
+      children: [
+        {
+          path: '/led',
+          element: <Led />
+        },
+        {
+          path: '/parkinglot',
+          element: <ParkingLot />
+        }
+      ]
+    },
+    {
+      path: '/',
+      // nhận diện thằng nào là chính  index : true
+      index: true,
+      element: (
+        <AdminLayout>
+          <Admin />
+        </AdminLayout>
+      )
+    }
+  ])
+  return routerElements
+}
