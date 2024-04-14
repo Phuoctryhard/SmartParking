@@ -32,4 +32,7 @@ app.use("/led", routerLed);
 app.use("/biensoxe", routerBienso);
 app.use("/parkbooking", routerUser);
 
+
+// register 
+app.use("/register",routerUser)
 app.listen(4000);

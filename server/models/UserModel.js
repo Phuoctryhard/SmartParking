@@ -3,7 +3,11 @@ const { Schema, default: mongoose } = require("mongoose");
 const user = new Schema({
   gmail: { type: String, required: true },
   password: { type: String, required: true },
-  role: String,
+  role: {
+    type: String,
+    default: "user",
+    required: true,
+  }
 });
 const User = mongoose.model("user", user);
 

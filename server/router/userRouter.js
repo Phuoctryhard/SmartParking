@@ -11,6 +11,7 @@ router.delete("/", userController.delete);
 router.get("/", userController.edit);
 router.put("/", userController.update);
 
-
+// register 
+router.post('/register',userController.register)
 
 module.exports = router;

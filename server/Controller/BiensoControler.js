@@ -15,7 +15,7 @@ class BienSo {
         res.status(500).json("Lỗi");
       });
   }
-  // them
+  //
   createBienSo(req, res) {
     const createBienSo = new BienSoXe(req.body);
     createBienSo
@@ -31,7 +31,7 @@ class BienSo {
         res.status(500).json({ message: "Internal server error" });
       });
   }
-  // xóa [delete]biensoxe/:id
+  //[delete]biensoxe/:id
   deleteBienSo(req, res) {
     BienSoXe.deleteOne({ _id: req.params._id })
       .then((data) => {
@@ -47,7 +47,7 @@ class BienSo {
         res.status(500).json({ message: "Lỗi máy chủ nội bộ" });
       });
   }
-  // sua  [Put]/update/:_id
+  //[Put]/update/:_id
   updateBiensoxe(req, res) {
     BienSoXe.updateOne({ _id: req.params._id }, req.body)
       .then(() => {
