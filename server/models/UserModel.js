@@ -10,7 +10,8 @@ const User = mongoose.model("user", user);
 
 const led = new mongoose.Schema({
     name : String,
-    status : Boolean
+    status : Boolean,
+    Pin: String
 })
 const Led = mongoose.model("led",led)
 const biensoxe = new mongoose.Schema({
