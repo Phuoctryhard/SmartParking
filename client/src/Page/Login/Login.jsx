@@ -1,15 +1,34 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import {useForm} from "react-hook-form"
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import UserApi from '../../Api/user'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 export default function Login() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
-    formState : {errors}
+    formState: { errors }
   } = useForm()
-
-  const onSubmit = (data)=>{
+  const Loginmutation = useMutation({
+    mutationFn: (body) => UserApi.login(body)
+  })
+  const onSubmit = (data) => {
     console.log(data)
+    Loginmutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data.data.user.role)
+        toast.success('Login Thành công ')
+        // user
+        if (data.data.user.role === 'user') {
+          navigate('/user')
+        } else {
+          navigate('/')
+        }
+      }
+    })
   }
 
   return (
@@ -23,11 +42,11 @@ export default function Login() {
                 <input
                   placeholder='Email/Số điện thoại/ Tên đăng nhập'
                   type='text'
-                  name='email'
+                  name='gmail'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register("email")}
+                  {...register('gmail')}
                 ></input>
-                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'></div>
+                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{}</div>
               </div>
 
               <div className='mt-3'>
@@ -36,13 +55,16 @@ export default function Login() {
                   type='password'
                   name='password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register("password")}
+                  {...register('password')}
                 ></input>
                 <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'></div>
               </div>
 
               <div className='mt-3'>
-                <button type="submit" className='text-center bg-orange w-full p-3 capitalize text-white cursor-not-allowed font-semibold'>
+                <button
+                  type='submit'
+                  className='text-center bg-orange w-full p-3 capitalize text-white cursor-not-allowed font-semibold'
+                >
                   Đăng nhập
                 </button>
               </div>

@@ -5,13 +5,11 @@ const user = new Schema({
   password: { type: String, required: true },
   role: {
     type: String,
-    default: "user",
+    default: "admin",
     required: true,
   }
 });
 const User = mongoose.model("user", user);
-
-
 const led = new mongoose.Schema({
     name : String,
     status : Boolean,

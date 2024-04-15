@@ -1,5 +1,5 @@
 const express = require("express");
-
+const cors = require("cors");
 const app = express();
 const morgan = require("morgan");
 // kêt nối database
@@ -11,6 +11,8 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit: "50mb" }));
 // kết nối mogodb
 //lets require/import the mongodb native drivers.
+// Sử dụng cors middleware
+app.use(cors());
 const mongoose = require("mongoose");
 mongoose
   .connect(process.env.URL_MONGDB, {

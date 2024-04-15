@@ -7,7 +7,7 @@ import { Button, Popover } from 'antd'
 export default function AvatarMain(){
   const navigate = useNavigate();
   const handleLogout = ()=>{
-    navigate('/login')
+    navigate('/Login')
   } 
   const content = (
     <div className=''>
