@@ -1,10 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import UserApi from '../../Api/user'
+import { toast } from 'react-toastify'
 const schema = yup.object({
-  email: yup
+  gmail: yup
     .string()
     .email('Lỗi email không đúng định dạng')
     .min(5, 'Lỗi độ dài 5 - 160 kí tự')
@@ -18,6 +21,7 @@ const schema = yup.object({
 })
 
 export default function Register() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -26,8 +30,22 @@ export default function Register() {
     resolver: yupResolver(schema)
   })
 
+  const Signupmutation = useMutation({
+    mutationFn: (body) => UserApi.signup(body)
+  })
   const onSubmit = handleSubmit((data) => {
     console.log(data)
+    Signupmutation.mutate(data, {
+      onSuccess: (data) => {
+        toast.success('Sign up Thành công ')
+        // user
+        navigate('/Login')
+      },
+      onError: (error) => {
+        // setErrors(error.response.data.message)
+        toast.error(error.response.data.message)
+      }
+    })
   })
   console.log(errors)
   return (
@@ -43,10 +61,9 @@ export default function Register() {
                   type='text'
                   name='email'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register('email')}
+                  {...register('gmail')}
                 ></input>
-                
-               
+
                 <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{errors.email?.message}</div>
               </div>
               <div className='mt-3'>

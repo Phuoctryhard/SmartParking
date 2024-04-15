@@ -26,15 +26,14 @@ mongoose
     console.error("Kết nối thất bại: ", error);
   });
 const routerUser = require("./router/userRouter");
-const routerLed = require('./router/ledRouter')
-const routerBienso = require('./router/biensoRouter')
+const routerLed = require("./router/ledRouter");
+const routerBienso = require("./router/biensoRouter");
 app.use("/login", routerUser);
 app.use("/user", routerUser);
 app.use("/led", routerLed);
 app.use("/biensoxe", routerBienso);
 app.use("/parkbooking", routerUser);
 
-
-// register 
-app.use("/register",routerUser)
+// register
+app.use("/register", routerUser);
 app.listen(4000);

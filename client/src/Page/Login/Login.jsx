@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import UserApi from '../../Api/user'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+const schema = yup.object({
+  gmail: yup
+    .string()
+    .email('Lỗi email không đúng định dạng')
+    .min(5, 'Lỗi độ dài 5 - 160 kí tự')
+    .max(160, 'Lỗi độ dài 5 - 160 kí tự'),
+  password: yup.string().min(5, 'Lỗi độ dài 5 - 160 kí tự').max(160, 'Lỗi độ dài 5 - 160 kí tự')
+})
 export default function Login() {
+  const [error, setErrors] = useState('')
   const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm()
+  } = useForm({
+    resolver: yupResolver(schema)
+  })
   const Loginmutation = useMutation({
     mutationFn: (body) => UserApi.login(body)
   })
@@ -19,7 +32,7 @@ export default function Login() {
     console.log(data)
     Loginmutation.mutate(data, {
       onSuccess: (data) => {
-        console.log(data.data.user.role)
+        console.log(data.data.token)
         toast.success('Login Thành công ')
         // user
         if (data.data.user.role === 'user') {
@@ -27,10 +40,14 @@ export default function Login() {
         } else {
           navigate('/')
         }
+      },
+      onError: (error) => {
+        // setErrors(error.response.data.message)
+        toast.error(error.response.data.message)
       }
     })
   }
-
+  console.log(errors)
   return (
     <div className='bg-[#71bf44]'>
       <div className='max-w-7xl mx-auto px-4 '>
@@ -46,7 +63,7 @@ export default function Login() {
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
                   {...register('gmail')}
                 ></input>
-                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{}</div>
+                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{errors.gmail?.message}</div>
               </div>
 
               <div className='mt-3'>
@@ -57,7 +74,7 @@ export default function Login() {
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
                   {...register('password')}
                 ></input>
-                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'></div>
+                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{errors.password?.message}</div>
               </div>
 
               <div className='mt-3'>
