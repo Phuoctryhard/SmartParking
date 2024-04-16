@@ -12,16 +12,14 @@ import 'react-toastify/dist/ReactToastify.css'
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <NextUIProvider>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ToastContainer />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </NextUIProvider>
-  </React.StrictMode>
+  <NextUIProvider>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ToastContainer />
+      </QueryClientProvider>
+    </BrowserRouter>
+  </NextUIProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function

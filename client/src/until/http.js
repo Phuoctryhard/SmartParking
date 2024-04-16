@@ -18,7 +18,6 @@ class Http {
         return Promise.reject(error)
       }
     )
-
     this.instance.interceptors.response.use(
       (response) => {
         console.log(response)

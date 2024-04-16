@@ -11,6 +11,8 @@ const BiensoxeApi = {
     return http.put(`url/update/${id}`, body)
   },
   deleteBienso: (id) => {
-    return http.delete(`url/${id}`)
+    return http.delete(`${url}/${id}`)
   }
 }
+
+export default BiensoxeApi

@@ -1,15 +1,24 @@
 import React from 'react'
 import { Tabs, Tab, Card, CardBody } from '@nextui-org/react'
 import App from '../Table/App'
+import TableBienSo from '../Table/App'
+import BiensoxeApi from '../../Api/biensoxe'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Tab1() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['getBienso'],
+    queryFn: BiensoxeApi.getBienso
+  })
+  if(isLoading) return ''
+  if(error) return ''
   return (
     <div className='flex w-full flex-col'>
       <Tabs aria-label='Options'>
         <Tab key='photos' title='Biển số xe '>
           <Card>
             <CardBody>
-             <App />
+              <TableBienSo databienso={data} />
             </CardBody>
           </Card>
         </Tab>
