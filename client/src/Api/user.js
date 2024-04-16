@@ -3,10 +3,10 @@ const url = 'login'
 const regiter = 'register/register'
 const UserApi = {
   login: (body) => {
-    return http.post(url,body)
+    return http.post(url, body)
   },
   signup: (body) => {
-    return http.post(regiter,body)
+    return http.post(regiter, body)
   }
 }
 export default UserApi

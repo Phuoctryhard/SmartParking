@@ -5,7 +5,7 @@ class Http {
   instance
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:4000',
+      baseURL: 'http://localhost:4000/',
       timeout: 10000,
       headers: { 'Content-Type': 'application/json' }
     })
@@ -21,7 +21,7 @@ class Http {
 
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response.config)
+        console.log(response)
         return response
       },
       (error) => {
