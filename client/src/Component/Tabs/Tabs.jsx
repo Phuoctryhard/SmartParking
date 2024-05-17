@@ -1,26 +1,34 @@
 import React from 'react'
 import { Tabs, Tab, Card, CardBody } from '@nextui-org/react'
-import App from '../Table/App'
-import TableBienSo from '../Table/App'
+import App from '../Table/TableBien'
+import TableBienSo from '../Table/TableBien'
 import BiensoxeApi from '../../Api/biensoxe'
 import { useQuery } from '@tanstack/react-query'
+import LedApi from '../../Api/led'
+import Tableled from '../Table/Tableled'
 
 export default function Tab1() {
+  const {
+    data: denledData,
+    isLoading: denledIsLoading,
+    error: denledError
+  } = useQuery({
+    queryKey: ['getDenled'],
+    queryFn: LedApi.getLed // Sử dụng hàm truy vấn mới từ DenledApi
+  })
   const { data, isLoading, error } = useQuery({
     queryKey: ['getBienso'],
     queryFn: BiensoxeApi.getBienso
   })
-  if(isLoading) return ''
-  if(error) return ''
+console.log(denledData)
+  // Kiểm tra xem có lỗi hoặc đang tải không
+  if (isLoading || denledIsLoading) return ''
+  if (error || denledError) return ''
   return (
     <div className='flex w-full flex-col'>
       <Tabs aria-label='Options'>
         <Tab key='photos' title='Biển số xe '>
-          <Card>
-            <CardBody>
-              <TableBienSo databienso={data} />
-            </CardBody>
-          </Card>
+          <TableBienSo databienso={data} />
         </Tab>
         <Tab key='music' title='Bãi đổ '>
           <Card>
@@ -32,12 +40,7 @@ export default function Tab1() {
           </Card>
         </Tab>
         <Tab key='videos' title='Quản lí thiết bị'>
-          <Card>
-            <CardBody>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-              laborum.
-            </CardBody>
-          </Card>
+          <Tableled dataled={denledData} />
         </Tab>
       </Tabs>
     </div>

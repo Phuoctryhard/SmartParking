@@ -1,21 +1,23 @@
 import React from 'react'
 import { Avatar } from '@nextui-org/react'
 import { Link } from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 import { Button, Popover } from 'antd'
 
-export default function AvatarMain(){
-  const navigate = useNavigate();
-  const handleLogout = ()=>{
+export default function AvatarMain() {
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('token')
     navigate('/Login')
-  } 
+  }
   const content = (
     <div className=''>
-      <div className=' mb-3 rounded-sm w-full hover:text-orange'>
-        Tài khoản của tôi 
-      </div>
-      <div className=' rounded-sm ' >
-        <button className='hover:text-orange w-full text-left' onClick={handleLogout}> Đăng Xuất </button>
+      <div className=' mb-3 rounded-sm w-full hover:text-orange'>Tài khoản của tôi</div>
+      <div className=' rounded-sm '>
+        <button className='hover:text-orange w-full text-left' onClick={handleLogout}>
+          {' '}
+          Đăng Xuất{' '}
+        </button>
       </div>
     </div>
   )

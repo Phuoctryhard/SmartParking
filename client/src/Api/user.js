@@ -1,6 +1,6 @@
 import http from '../until/http'
-const url = 'login'
-const regiter = 'register/register'
+const url = 'user/signup'
+const regiter = 'user/adduser'
 const UserApi = {
   login: (body) => {
     return http.post(url, body)

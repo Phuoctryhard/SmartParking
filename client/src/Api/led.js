@@ -13,7 +13,7 @@ const LedApi = {
     return http.put(`${url}/update/${id}`, body);
   },
   deleteLed: (id) => {
-    return http.delete(`url/${id}`)
+    return http.delete(`${url}/delete/${id}`)
   }
 }
 export default LedApi

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import LedApi from '../../../../Api/led'
 import { toast } from 'react-toastify'
+const espServer = 'http://192.168.1.16'
 export default function Led() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['getLed'],
@@ -11,32 +12,49 @@ export default function Led() {
     mutationFn: ({ id, body }) => LedApi.updatedLed(id, body)
   })
   const handleTurnLight = (index, status, element) => {
-    console.log('Bật đèn ' + index + ' ' + status)
-    updateLedMutate.mutate(
-      { id: element._id, body: { status: true } },
-      {
-        onSuccess: (data) => {
-          toast.success(`Bật ${element.name} thành công`)
+    console.log(element)
+    console.log('Bật đèn ' + element.Pin + ' ' + status)
+    fetch(espServer + `/led${element.Pin}=on`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
         }
-      }
-    )
+        toast.success(`Bật ${element.name} thành công`)
+      })
+      .catch((error) => console.error('Error:', error))
+    // updateLedMutate.mutate(
+    //   { id: element.id, body: { name: element.name, Pin: element.Pin, status: 1 } },
+    //   {
+
+    //   }
+    // )
   }
-  const handleoffLight = (index, status,element) => {
+  const handleoffLight = (index, status, element) => {
     status = false
-    console.log('Tắt đèn ' + index + status)
-    updateLedMutate.mutate(
-      { id: element._id, body: { status: false } },
-      {
-        onSuccess: (data) => {
-          toast.error(`Tắt ${element.name} thành công`)
+    console.log('Tắt đèn ' + element.Pin + status)
+    // updateLedMutate.mutate(
+    //   { id: element.id, body: { name: element.name, Pin: element.Pin, status: 0 } },
+    //   {
+    //     onSuccess: (data) => {
+    //       toast.error(`Tắt ${element.name} thành công`)
+    //     }
+    //   }
+    // )
+
+    fetch(espServer + `/led${element.Pin}=off`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
         }
-      }
-    )
+        toast.error(`Tắt ${element.name} thành công`)
+      })
+      .catch((error) => console.error('Error:', error))
   }
   // console.log(data.data)
   if (isLoading) {
     return ''
   }
+  console.log(data)
   return (
     <div className='w-full min-h-screen bg-[#E6EFFA] '>
       <div className='  p-10 '>
@@ -68,7 +86,7 @@ export default function Led() {
                   <div className='flex items-center '>
                     <button
                       className='p-2 bg-red-500 rounded-2xl mr-3'
-                      onClick={() => handleTurnLight(element._id, element.status, element)}
+                      onClick={() => handleTurnLight(element.id, element.status, element)}
                     >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -87,7 +105,7 @@ export default function Led() {
                     </button>
                     <button
                       className='bg-gray-200 rounded-2xl p-2 relative shadow-sm'
-                      onClick={() => handleoffLight(element._id, element.status,element)}
+                      onClick={() => handleoffLight(element.id, element.status, element)}
                     >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'

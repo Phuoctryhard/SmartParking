@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react'
+import React, { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,20 +16,21 @@ import {
 import { Link } from 'react-router-dom'
 import BiensoxeApi from '../../Api/biensoxe'
 import { useMutation } from '@tanstack/react-query'
+import { Button } from 'antd'
 
 export default function TableBien({ databienso }) {
-  console.log('re - render ')
+  console.log('re - render bien ')
   const queryClient = useQueryClient()
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 2
 
-  console.log(databienso.data.data.length)
-  const pages = Math.ceil(databienso.data.data.length / rowsPerPage)
+  console.log(databienso.data.length)
+  const pages = Math.ceil(databienso.data.length / rowsPerPage)
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
-    const end = Math.min(start + rowsPerPage, databienso.data.data.length)
-    return databienso.data.data.slice(start, end)
-  }, [page, databienso.data, rowsPerPage])
+    const end = Math.min(start + rowsPerPage, databienso.data.length)
+    return databienso.data.slice(start, end)
+  }, [page, databienso, rowsPerPage])
 
   const deleteBienSoMutate = useMutation({
     mutationFn: BiensoxeApi.deleteBienso,
@@ -45,11 +46,40 @@ export default function TableBien({ databienso }) {
 
   const handleEdit = (value) => {
     console.log('edit ' + value)
+    setformData(value)
+    setModalVisible(true)
   }
+  const [modalVisible, setModalVisible] = useState(false)
 
+  const [formData, setformData] = useState({
+    id: '',
+    nguoidangki: '',
+    mabien: ''
+  })
+  const updateMutateBienSo = useMutation({
+    mutationFn: ({ id, body }) => BiensoxeApi.updatedBienso(id, body),
+    onSuccess: () => {
+      toast.success('Cập nhật biển số thành công')
+      queryClient.invalidateQueries({ queryKey: ['getBienso'] })
+      setModalVisible(false)
+    }
+    // Quay lại trang trước đó sau khi cập nhật thành công
+  })
+  const handleSubmitUpdate = (event) => {
+    event.preventDefault()
+    console.log(formData)
+    updateMutateBienSo.mutate({
+      id: formData.id,
+      body: {
+        nguoidangki: formData.nguoidangki,
+        mabien: formData.mabien
+      }
+    })
+  }
+  console.log(databienso)
   return (
     <div className=''>
-      <Link to='/create'>
+      <Link to='/create' className='inline-block'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -57,7 +87,7 @@ export default function TableBien({ databienso }) {
           strokeWidth='1.5'
           stroke='currentColor'
           className='w-10 h-10 text-green'
-          style={{ padding: '10px', backgroundColor: 'lightgreen', borderRadius: '50%' }}
+          style={{ padding: '5px', backgroundColor: 'lightgreen', borderRadius: '50%' }}
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
         </svg>
@@ -83,14 +113,14 @@ export default function TableBien({ databienso }) {
         }}
       >
         <TableHeader>
-          <TableColumn key='name' className='text-center'>
-            NAME
+          <TableColumn key='nguoidangki' className='text-center'>
+            Người Đăng Kí
           </TableColumn>
           <TableColumn key='mabien' className='text-center'>
             Mã Biển
           </TableColumn>
-          <TableColumn key='_id' className='text-center'>
-            STATUS
+          <TableColumn key='id' className='text-center'>
+            Id
           </TableColumn>
           <TableColumn key='active' className='text-center'>
             ACTION
@@ -98,13 +128,13 @@ export default function TableBien({ databienso }) {
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
-            // key là duy nhất 
-            <TableRow key={item._id} className='text-center'>
+            // key là duy nhất
+            <TableRow key={item.id} className='text-center   '>
               {(columnKey) => (
                 <TableCell>
                   {columnKey === 'active' ? (
                     <>
-                      <button onClick={() => handleDelete(item._id)} className='p-3 bg-yellow-400 rounded-full'>
+                      <button onClick={() => handleDelete(item.id)} className='p-2 bg-yellow-400 rounded-full'>
                         <svg
                           className='w-8 h-8  text-gray-800 dark:text-white '
                           aria-hidden='true'
@@ -123,7 +153,8 @@ export default function TableBien({ databienso }) {
                           />
                         </svg>
                       </button>
-                      <button onClick={() => handleEdit(item.name)} className='p-3 bg-yellow-400 rounded-full'>
+
+                      <button onClick={() => handleEdit(item)} className='p-2 bg-yellow-400 rounded-full ml-2'>
                         <svg
                           className='w-8 h-8  text-orange'
                           aria-hidden='true'
@@ -152,6 +183,62 @@ export default function TableBien({ databienso }) {
           )}
         </TableBody>
       </Table>
+      <>
+        {modalVisible && (
+          <>
+            <div className='fixed inset-0 flex items-center justify-center bg-blue-200 bg-opacity-60'>
+              <div className='w-[500px] p-5 bg-gray-50 rounded-lg shadow-lg'>
+                <div className='text-3xl text-blue-600 font-bold mb-10 mt-3'>
+                  <h1>Cập nhật biển số</h1>
+                </div>
+                <form onSubmit={handleSubmitUpdate}>
+                  <div className='flex flex-col mb-10'>
+                    <label htmlFor='name' className='text-2xl mb-3 '>
+                      Người Đăng Kí
+                    </label>
+                    <input
+                      type='text'
+                      className='border p-3 rounded-lg outline-none'
+                      id='name'
+                      name='nguoidangki'
+                      required
+                      onChange={(e) => setformData({ ...formData, nguoidangki: e.target.value })}
+                      value={formData.nguoidangki}
+                    />
+                  </div>
+                  <div className='flex flex-col pb-4'>
+                    <label htmlFor='mabien' className='text-2xl mb-3'>
+                      Mã biển
+                    </label>
+                    <input
+                      type='text'
+                      className='border p-3 rounded-lg outline-none'
+                      id='mabien'
+                      name='babien'
+                      required
+                      onChange={(e) => setformData({ ...formData, mabien: e.target.value })}
+                      value={formData.mabien}
+                    />
+                  </div>
+
+                  <div className='flex items-center justify-center mt-2 gap-5'>
+                    <button
+                      onClick={() => setModalVisible(false)}
+                      className='bg-gray-300 text-gray-700  bg-blue-500 rounded-sm text-2xl py-2 px-4  min-w-[113px] rounded-lg text-white'
+                    >
+                      Close
+                    </button>
+
+                    <button type='submit' className='p-2 bg-blue-500 rounded-sm text-white text-2xl rounded-lg'>
+                      Cập nhật
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </>
+        )}
+      </>
     </div>
   )
 }

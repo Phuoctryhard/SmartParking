@@ -66,7 +66,7 @@ export default function FunctionList() {
                 </div>
 
                 <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                  <Link to='/pro' className='flex justify-between '>
+                  <Link to='/dht11' className='flex justify-between '>
                     <div className='flex items-center text-xl '>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -82,7 +82,7 @@ export default function FunctionList() {
                           d='M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z'
                         />
                       </svg>
-                      Dịch Vụ Thẻ
+                      Nhiệt Độ - Độ ẩm
                     </div>
                     <Link to='' className=''>
                       <svg
@@ -100,7 +100,7 @@ export default function FunctionList() {
                 </div>
 
                 <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                  <Link to='/pro' className='flex justify-between '>
+                  <Link to='/register_licese' className='flex justify-between '>
                     <div className='flex items-center text-xl '>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -117,7 +117,7 @@ export default function FunctionList() {
                           d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z'
                         />
                       </svg>
-                      Đặt Chỗ
+                      Đăng Kí Biển Số
                     </div>
                     <Link to='' className=''>
                       <svg
@@ -152,7 +152,7 @@ export default function FunctionList() {
                           d='M9 9a3 3 0 0 1 3-3m-2 15h4m0-3c0-4.1 4-4.9 4-9A6 6 0 1 0 6 9c0 4 4 5 4 9h4Z'
                         />
                       </svg>
-                      Led
+                      Đèn Led
                     </div>
                     <Link to='' className=''>
                       <svg

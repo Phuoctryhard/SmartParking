@@ -9,10 +9,13 @@ import Admin from '../Page/Admin'
 import AdminLayout from '../Layout/AdminLayout'
 import Led from '../Page/User/FunctionList/Led'
 import ParkingLot from '../Page/User/FunctionList/ParkingLot'
+import CreateBienSo from '../Page/Create/CreateBienSo'
+import CreateLed from '../Page/Create/CreateDenled'
+import DHT11 from '../Page/User/FunctionList/DHT11/DHT11'
+import RegisterLicense from '../Page/User/FunctionList/RegisterLicense'
 // const isAuthenticated = true
 function ProtectRoute() {
   // login : true , log out : false
-
   // route đã login thì outlet , chưa login thì navigate login
   // true : sẽ đăng nhập -> outlet chứa children đã đăng nhập >< login
   const isAuthenticated = true
@@ -75,6 +78,22 @@ export default function useRouterElement() {
         {
           path: '/parkinglot',
           element: <ParkingLot />
+        },
+        {
+          path: '/dht11',
+          element: <DHT11 />
+        },
+        {
+          path: '/create',
+          element: <CreateBienSo />
+        },
+        {
+          path: '/createLed',
+          element: <CreateLed />
+        },
+        {
+          path: 'register_licese',
+          element: <RegisterLicense />
         }
       ]
     },

@@ -3,7 +3,9 @@ import { getAccessToken } from './auth'
 
 class Http {
   instance
+  _accessToken
   constructor() {
+    this.accessToken = getAccessToken()
     this.instance = axios.create({
       baseURL: 'http://localhost:4000/',
       timeout: 10000,
@@ -12,6 +14,10 @@ class Http {
 
     this.instance.interceptors.request.use(
       (config) => {
+        if (this._accessToken && config.headers) {
+          config.headers.authorization = this._accessToken
+          return config
+        }
         return config
       },
       (error) => {

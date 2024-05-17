@@ -63,8 +63,7 @@ export default function Register() {
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
                   {...register('gmail')}
                 ></input>
-
-                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{errors.email?.message}</div>
+                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{errors.gmail?.message}</div>
               </div>
               <div className='mt-3'>
                 <input
