@@ -36,10 +36,9 @@ class Bienso:
             db.commit()
             return {"Message": "Xóa biển số thành công"}
         except Exception as err:
-        # Xử lý ngoại lệ cụ thể ở đây
-        # Ví dụ: logging, thông báo cho người dùng về lỗi cụ thể
+            # Xử lý ngoại lệ cụ thể ở đây
+            # Ví dụ: logging, thông báo cho người dùng về lỗi cụ thể
             return {"Message": "Xóa biển số thất bại: " + str(err)}
-
 
     def updateBienso(self, id, mabien, nguoidangki):
         try:

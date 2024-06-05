@@ -1,17 +1,28 @@
-from flask import Blueprint, jsonify, request
 from models.biensoxe import Bienso
+from flask import Blueprint, jsonify, request
+import sys
+model_folder_path = r"D:\AI\PBL5\scripts"
+sys.path.insert(0, model_folder_path)
+
+
 # cách tạo một blueprint với tên là 'product'. Tham số __name__
 # dại dien module hien tai
 product_bp = Blueprint('product', __name__)
 model = Bienso()
+
+
 @product_bp.route('/')
 def get_products():
     products = model.get_biensos()
     return jsonify(products)
+
+
 @product_bp.route('/anhyeuem')
 def get():
     products = model.get_biensos()
     return "ahihi"
+
+
 @product_bp.route('/create', methods=['POST'])
 def create():
     data = request.get_json()
@@ -23,14 +34,17 @@ def create():
     else:
         model.createBienso(mabien, nguoidangki)
         return jsonify("Message: Tạo thành công")
-    
+
+
 @product_bp.route('/delete/<int:id>', methods=['DELETE'])
 def delete(id):
     result = model.deleteBienso(id)
     if "Message" in result and "thất bại" in result["Message"].lower():
-        return jsonify({"Message": "Xóa thất bại"}), 400  # Trả về mã lỗi 400 cho lỗi
+        # Trả về mã lỗi 400 cho lỗi
+        return jsonify({"Message": "Xóa thất bại"}), 400
     else:
         return jsonify({"Message": "Xóa thành công"})
+
 
 @product_bp.route('/update/<int:id>', methods=["PUT"])
 def update(id):
@@ -48,5 +62,20 @@ def update(id):
             return jsonify("Cập nhật thành công"), 200
         else:
             return jsonify("Cập nhật thất bại")
+    except Exception as e:
+        return jsonify({'error': 'Failed to update LED', 'details': str(e)}), 500
+
+# lấy mã biển
+
+
+@product_bp.route('/search/<string:id>', methods=["GET"])
+def search(id):
+    try:
+        checkMabien = model.getby_mabien(id)
+        print(checkMabien)
+        if (checkMabien):
+            return jsonify("Tìm kiếm thành công")
+        else:
+            return jsonify("Tìm kiếm ko thanhg công ")
     except Exception as e:
         return jsonify({'error': 'Failed to update LED', 'details': str(e)}), 500

@@ -9,6 +9,7 @@ from flask_mail import Mail
 from models.user import User
 from flask_cors import CORS, cross_origin
 import requests
+from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
@@ -48,7 +49,18 @@ def register():
         except Exception as e:
             return jsonify({'error': 'Failed to register user', 'details': str(e)}), 500
 
+# Route để kiểm tra khí gas
+@app.route('/check_gas', methods=['POST'])
+def check_gas_route():
+    data = request.get_json()
+    gas_value = float(data['gasValue'])
 
+    alert = False
+    if gas_value > 400:
+        alert = True
+        return jsonify('Gas level is too high! Fire alert!')
+
+    return jsonify({'alert': alert})
 # Hàm tiện ích để cung cấp đối tượng mail cho controller
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
