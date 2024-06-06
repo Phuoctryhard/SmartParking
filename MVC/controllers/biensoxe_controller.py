@@ -7,7 +7,7 @@ sys.path.insert(0, model_folder_path)
 
 # cách tạo một blueprint với tên là 'product'. Tham số __name__
 # dại dien module hien tai
-product_bp = Blueprint('product', __name__)
+product_bp = Blueprint('biensoxe', __name__)
 model = Bienso()
 
 

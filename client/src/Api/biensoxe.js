@@ -1,5 +1,5 @@
 import http from '../until/http'
-const url = 'biensoxe'
+const url = 'biensoxe/'
 const BiensoxeApi = {
   getBienso: () => {
     return http.get(url)

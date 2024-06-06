@@ -9,10 +9,10 @@ from flask_mail import Mail
 from models.user import User
 from flask_cors import CORS, cross_origin
 import requests
-from apscheduler.schedulers.background import BackgroundScheduler
+# from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
-
+CORS(app, supports_credentials=True,
+     resources={r"/*": {"origins": "*"}})
 # Cấu hình đối tượng
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -63,10 +63,7 @@ def check_gas_route():
         return jsonify('Gas level is too high! Fire alert!')
 
     return jsonify({'alert': alert})
-
-
-# Hàm tiện ích để cung cấp đối tượng mail cho controller
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
     # port = int(os.environ.get("PORT", 4000))
-    app.run(host='0.0.0.0', port=4000)
+    app.run(debug=True)

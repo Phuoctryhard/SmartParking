@@ -1,6 +1,6 @@
 import http from '../until/http'
 
-const url = 'led'
+const url = 'led/'
 
 const LedApi = {
   getLed: () => {
@@ -10,7 +10,7 @@ const LedApi = {
     return http.post(url, body)
   },
   updatedLed: (id, body) => {
-    return http.put(`${url}/update/${id}`, body);
+    return http.put(`${url}/update/${id}`, body)
   },
   deleteLed: (id) => {
     return http.delete(`${url}/delete/${id}`)
