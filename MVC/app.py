@@ -50,6 +50,8 @@ def register():
             return jsonify({'error': 'Failed to register user', 'details': str(e)}), 500
 
 # Route để kiểm tra khí gas
+
+
 @app.route('/check_gas', methods=['POST'])
 def check_gas_route():
     data = request.get_json()
@@ -61,8 +63,10 @@ def check_gas_route():
         return jsonify('Gas level is too high! Fire alert!')
 
     return jsonify({'alert': alert})
+
+
 # Hàm tiện ích để cung cấp đối tượng mail cho controller
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 4000))
-    app.run(debug=True, host='localhost', port=port)
+    # port = int(os.environ.get("PORT", 4000))
+    app.run(host='0.0.0.0', port=4000)

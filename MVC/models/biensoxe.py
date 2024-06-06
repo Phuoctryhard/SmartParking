@@ -57,3 +57,13 @@ class Bienso:
         if bienso:
             return True
         return False
+
+    def getby_mathe(self, mathe):
+        print(mathe)
+        db, cursor = self.db.get_connection()
+        cursor.execute("SELECT * FROM biensoxe WHERE mathe = %s", (mathe,))
+        bienso = cursor.fetchone()
+        if bienso:
+            return True
+        return False
+    

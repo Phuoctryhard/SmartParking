@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class Database:
     def __init__(self):
         try:
@@ -7,7 +8,7 @@ class Database:
                 host="localhost",
                 user="root",
                 password='',
-                database="pbl5"
+                database="pbl05"
             )
             self.cursor = self.db.cursor()
             print("Connected to the database successfully!")

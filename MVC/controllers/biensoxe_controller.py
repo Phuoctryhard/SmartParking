@@ -71,7 +71,8 @@ def update(id):
 @product_bp.route('/search/<string:id>', methods=["GET"])
 def search(id):
     try:
-        checkMabien = model.getby_mabien(id)
+        # checkMabien = model.getby_mabien(id)
+        checkMabien = model.getby_mathe(id)
         print(checkMabien)
         if (checkMabien):
             return jsonify("Tìm kiếm thành công")
