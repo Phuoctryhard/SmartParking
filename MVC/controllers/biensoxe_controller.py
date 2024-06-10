@@ -9,8 +9,6 @@ sys.path.insert(0, model_folder_path)
 # dại dien module hien tai
 product_bp = Blueprint('biensoxe', __name__)
 model = Bienso()
-
-
 @product_bp.route('/')
 def get_products():
     products = model.get_biensos()

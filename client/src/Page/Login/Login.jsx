@@ -33,15 +33,16 @@ export default function Login() {
     Loginmutation.mutate(data, {
       onSuccess: (data) => {
         console.log(data.data.token)
+        console.log(data.data.gmail)
+
         localStorage.setItem('token', data.data.token)
+        localStorage.setItem('gmail', data.data.gmail)
         toast.success('Login Thành công ')
         // user
         if (data.data.role === 'user') {
-         
           navigate('/user')
-       
         } else {
-          navigate('/')
+          navigate('/admin')
         }
       },
       onError: (error) => {

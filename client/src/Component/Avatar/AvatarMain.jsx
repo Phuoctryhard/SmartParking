@@ -32,7 +32,7 @@ export default function AvatarMain() {
           </Popover>
 
           <div className='font-bold text-xl'>
-            <span className='text-sm'>Xin Chào,</span> Ngô Đình Phước
+            <span className='text-sm'>Xin Chào,</span> {localStorage.getItem('gmail')}
           </div>
         </div>
       )}

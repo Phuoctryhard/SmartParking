@@ -61,9 +61,10 @@ def check_gas_route():
     if gas_value > 400:
         alert = True
         return jsonify('Gas level is too high! Fire alert!')
-
     return jsonify({'alert': alert})
+
+
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
-    # port = int(os.environ.get("PORT", 4000))
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 4000))
+    app.run(debug=True, port=port)
