@@ -1,23 +1,25 @@
-from flask import Blueprint , jsonify, request
+from flask import Blueprint, jsonify, request
 from models.led import Led
-from flask_cors import  cross_origin
-# ở đây nv sẽ gọi model để truy vấn data và return 
+from flask_cors import cross_origin
+# ở đây nv sẽ gọi model để truy vấn data và return
 led_bp = Blueprint('led', __name__)
 model = Led()
+
+
 @led_bp.route('/', methods=['GET'])
-@cross_origin(supports_credentials=True)
+# @cross_origin(supports_credentials=True)
 def get_users():
     leds = model.get_led()
     return jsonify(leds)
+
+
 @led_bp.route('/create', methods=['POST'])
 def create_led():
     # Lấy dữ liệu từ request
     data = request.get_json()
-    # Trích xuất thông tin từ dữ liệu
     name = data.get('name')
     chanpin = data.get('Pin')
     status = data.get('status')
-    # Kiểm tra xem thông tin cần thiết đã được cung cấp chưa
     if name is None or chanpin is None or status is None:
         return jsonify({'error': 'Missing information'}), 400
     try:
@@ -32,15 +34,16 @@ def create_led():
             return jsonify({'message': 'LED created successfully'}), 201
     except Exception as e:
         return jsonify({'error': 'Failed to create LED', 'details': str(e)}), 500
-    
+
+
 @led_bp.route('/delete/<int:id>', methods=['DELETE'])
 def delete_led(id):
     try:
-        # Thực hiện xóa LED dựa trên ID được cung cấp
         result = model.delete(id)
         return jsonify(result), 200
     except Exception as e:
         return jsonify({'error': 'Failed to delete LED', 'details': str(e)}), 500
+
 
 @led_bp.route('/update/<int:id>', methods=['PUT'])
 @cross_origin(supports_credentials=True)
@@ -51,7 +54,6 @@ def update_led(id):
         name = data.get('name')
         chanpin = data.get('Pin')
         status = data.get('status')
-        # Kiểm tra xem thông tin cần thiết đã được cung cấp chưa
         if name is None or chanpin is None or status is None:
             return jsonify({'error': 'Missing information'}), 400
         # Thực hiện cập nhật LED dựa trên ID
@@ -59,4 +61,3 @@ def update_led(id):
         return jsonify(result), 200
     except Exception as e:
         return jsonify({'error': 'Failed to update LED', 'details': str(e)}), 500
-

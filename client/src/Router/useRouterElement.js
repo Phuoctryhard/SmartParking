@@ -94,6 +94,10 @@ export default function useRouterElement() {
         {
           path: 'register_licese',
           element: <RegisterLicense />
+        },
+        {
+          path: '/admin',
+          element: <Admin />
         }
       ]
     },
@@ -102,9 +106,9 @@ export default function useRouterElement() {
       // nhận diện thằng nào là chính  index : true
       index: true,
       element: (
-        <AdminLayout>
-          <Admin />
-        </AdminLayout>
+        <RegisterLayout>
+          <Login />
+        </RegisterLayout>
       )
     }
   ])

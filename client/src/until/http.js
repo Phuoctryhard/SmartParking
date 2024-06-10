@@ -7,7 +7,8 @@ class Http {
   constructor() {
     this.accessToken = getAccessToken()
     this.instance = axios.create({
-      baseURL: 'https://8h8zcx79-5000.asse.devtunnels.ms/',
+      // baseURL: 'https://8h8zcx79-5000.asse.devtunnels.ms/',
+      baseURL: 'http://localhost:4000/',
       timeout: 10000,
       headers: { 'Content-Type': 'application/json' }
     })
@@ -37,3 +38,4 @@ class Http {
 }
 const http = new Http().instance
 export default http
+// https://8h8zcx79-5000.asse.devtunnels.ms/
