@@ -33,13 +33,14 @@ app.register_blueprint(led_bp, url_prefix='/led')
 def register():
     gmail = request.json['gmail']
     password = request.json['password']
+    name = request.json['name']
     role = 'user'
     if model.check_user_existence(gmail):
         return jsonify({'message': 'User already exists'}), 409
     else:
         try:
             role = "user"
-            model.create_user(gmail, password, role)
+            model.create_user(gmail, password, role, name)
             msg = Message("Đăng kí Tài Khoản Website Thành Công ",
                           sender='nguyenhuynhan.dn@gmail.com', recipients=[gmail])
             msg.body = f"Username:{gmail}  \nPassword: {password} "

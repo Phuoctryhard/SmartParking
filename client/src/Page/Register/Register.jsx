@@ -37,13 +37,17 @@ export default function Register() {
     console.log(data)
     Signupmutation.mutate(data, {
       onSuccess: (data) => {
-        toast.success('Sign up Thành công ')
+        toast.success('Sign up Thành công ', {
+          autoClose: 1000
+        })
         // user
         navigate('/Login')
       },
       onError: (error) => {
         // setErrors(error.response.data.message)
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message, {
+          autoClose: 1000
+        })
       }
     })
   })
@@ -56,6 +60,17 @@ export default function Register() {
             <form className='p-10 bg-white rounded shadow-sm' onSubmit={onSubmit}>
               <div className='text-2xl'>Đăng Kí</div>
               <div className='mt-8'>
+                <input
+                  placeholder='Họ tên'
+                  type='text'
+                  name='name'
+                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
+                  {...register('name')}
+                ></input>
+                <div className='mt-1 text-red-600 text-sm min-h-[1.5rem]'>{}</div>
+              </div>
+
+              <div className='mt-3'>
                 <input
                   placeholder='Email/Số điện thoại/ Tên đăng nhập'
                   type='text'

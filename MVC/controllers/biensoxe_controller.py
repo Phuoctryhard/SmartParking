@@ -9,6 +9,8 @@ sys.path.insert(0, model_folder_path)
 # dại dien module hien tai
 product_bp = Blueprint('biensoxe', __name__)
 model = Bienso()
+
+
 @product_bp.route('/')
 def get_products():
     products = model.get_biensos()
@@ -24,14 +26,26 @@ def get():
 @product_bp.route('/create', methods=['POST'])
 def create():
     data = request.get_json()
+    if not data:
+        return jsonify({"error": "Yêu cầu không hợp lệ"}), 400
+
     mabien = data.get('mabien')
     nguoidangki = data.get("nguoidangki")
+    mathe = data.get('mathe')
+
+    if not mabien or not nguoidangki:
+        return jsonify({"error": "Thiếu thông tin biển số hoặc người đăng kí"}), 400
+
+    # Kiểm tra xem biển số đã tồn tại chưa
     checkMabien = model.getby_mabien(mabien)
+    checkMathe = model.getby_mathe(mathe)
     if checkMabien:
-        return jsonify("Đã tồn tại biển số")
+        return jsonify("Biển số đã tồn tại"), 409
+    if checkMathe:
+        return jsonify("Mã thẻ đã tồn tại"), 409
     else:
-        model.createBienso(mabien, nguoidangki)
-        return jsonify("Message: Tạo thành công")
+        model.createBienso(mabien, nguoidangki, mathe)
+        return jsonify({"message": "Tạo biển số thành công"}), 200
 
 
 @product_bp.route('/delete/<int:id>', methods=['DELETE'])
