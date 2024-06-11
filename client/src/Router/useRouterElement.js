@@ -106,9 +106,9 @@ export default function useRouterElement() {
       // nhận diện thằng nào là chính  index : true
       index: true,
       element: (
-        <RegisterLayout>
-          <Login />
-        </RegisterLayout>
+        <MainLayout>
+          <FunctionList />
+        </MainLayout>
       )
     }
   ])

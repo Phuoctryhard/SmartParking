@@ -36,8 +36,10 @@ export default function Login() {
         console.log(data.data.gmail)
 
         localStorage.setItem('token', data.data.token)
-        localStorage.setItem('gmail', data.data.gmail)
-        toast.success('Login Thành công ')
+        localStorage.setItem('gmail', data.data.name)
+        toast.success('Login Thành công ', {
+          autoClose: 1000
+        })
         // user
         if (data.data.role === 'user') {
           navigate('/user')

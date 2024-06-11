@@ -23,10 +23,10 @@ class Bienso:
         # Chuyển đổi danh sách sách sang định dạng JSON
         return books_list
 
-    def createBienso(self, mabien, nguoidangki):
+    def createBienso(self, mabien, nguoidangki, mathe):
         db, cursor = self.db.get_connection()
         cursor.execute(
-            "INSERT INTO biensoxe(mabien,nguoidangki) VALUES (%s,%s)", (mabien, nguoidangki))
+            "INSERT INTO biensoxe(mabien,nguoidangki,mathe) VALUES (%s,%s,%s)", (mabien, nguoidangki, mathe))
         db.commit()
 
     def deleteBienso(self, id):
@@ -66,4 +66,3 @@ class Bienso:
         if bienso:
             return True
         return False
-    

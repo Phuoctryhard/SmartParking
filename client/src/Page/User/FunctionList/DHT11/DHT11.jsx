@@ -142,11 +142,11 @@ export default function DHT11() {
       <div className='p-5 bg-white w-full rounded-xl'>
         <h1 className='font-bold text-2xl'>Nhiệt độ - độ ẩm bãi đổ xe</h1>
         <p className='mt-5 text-xl'>
-          <img src={anh} className='w-[30px] h-[30px] inline-block mr-5 mb-3' />
+          <img src={drop} className='w-[30px] h-[30px] inline-block mr-5 mb-3' />
           Độ Ẩm : {humid} %
         </p>
         <p className='mt-5 text-xl'>
-          <img src={drop} className='w-[30px] h-[30px] inline-block mr-5 mb-3' />
+          <img src={anh} className='w-[30px] h-[30px] inline-block mr-5 mb-3' />
           Nhiệt Độ : {temp} ℃
         </p>
       </div>
