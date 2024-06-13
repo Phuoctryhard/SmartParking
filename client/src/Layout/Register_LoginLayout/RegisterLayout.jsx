@@ -6,7 +6,6 @@ export default function RegisterLayout({ children }) {
     <div>
       <Header />
       {children}
-      <Footer />
     </div>
   )
 }
