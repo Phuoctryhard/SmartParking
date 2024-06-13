@@ -27,7 +27,7 @@ def create_led():
         existing_led = model.get_led_by_pin(chanpin)
         if existing_led:
             # Nếu đã tồn tại LED với Pin này, trả về thông báo lỗi
-            return jsonify({'error': 'LED with this Pin already exists'}), 409
+            return jsonify('LED with this Pin already exists'), 409
         else:
             # Nếu chưa có Pin trong cơ sở dữ liệu, thực hiện tạo mới bản ghi LED
             model.create_led(name, chanpin, status)

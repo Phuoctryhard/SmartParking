@@ -65,18 +65,19 @@ def update(id):
         data = request.get_json()
         mabien = data.get('mabien')
         nguoidangki = data.get('nguoidangki')
+        mathe = data.get('mathe')
+        print(data)
         # Kiểm tra xem thông tin cần thiết đã được cung cấp chưa
         if mabien is None or nguoidangki is None:
             return jsonify({'error': 'Missing information'}), 400
         # Thực hiện cập nhật LED dựa trên ID
-        result = model.updateBienso(id, mabien, nguoidangki)
+        result = model.updateBienso(id, mabien, nguoidangki, mathe)
         if result:
             return jsonify("Cập nhật thành công"), 200
         else:
             return jsonify("Cập nhật thất bại")
     except Exception as e:
         return jsonify({'error': 'Failed to update LED', 'details': str(e)}), 500
-
 # lấy mã biển
 
 

@@ -7,7 +7,6 @@ export default function MainLayout({ children }) {
     <div className='w-full min-h-screen bg-[#E6EFFA]'>
       <HeaderMain />
       {children}
-      <Footer />
     </div>
   )
 }
