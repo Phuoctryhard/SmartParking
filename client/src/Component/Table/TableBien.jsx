@@ -54,7 +54,8 @@ export default function TableBien({ databienso }) {
   const [formData, setformData] = useState({
     id: '',
     nguoidangki: '',
-    mabien: ''
+    mabien: '',
+    mathe: ''
   })
   const updateMutateBienSo = useMutation({
     mutationFn: ({ id, body }) => BiensoxeApi.updatedBienso(id, body),
@@ -72,14 +73,15 @@ export default function TableBien({ databienso }) {
       id: formData.id,
       body: {
         nguoidangki: formData.nguoidangki,
-        mabien: formData.mabien
+        mabien: formData.mabien,
+        mathe: formData.mathe
       }
     })
   }
   console.log(databienso)
   return (
     <div className=''>
-      <Link to='/create' className='inline-block'>
+      <Link to='/admin/createBienso' className='inline-block'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -119,8 +121,8 @@ export default function TableBien({ databienso }) {
           <TableColumn key='mabien' className='text-center'>
             Mã Biển
           </TableColumn>
-          <TableColumn key='id' className='text-center'>
-            Id
+          <TableColumn key='mathe' className='text-center'>
+            Mã Thẻ
           </TableColumn>
           <TableColumn key='active' className='text-center'>
             ACTION
@@ -192,7 +194,7 @@ export default function TableBien({ databienso }) {
                   <h1>Cập nhật biển số</h1>
                 </div>
                 <form onSubmit={handleSubmitUpdate}>
-                  <div className='flex flex-col mb-10'>
+                  <div className='flex flex-col mb-8'>
                     <label htmlFor='name' className='text-2xl mb-3 '>
                       Người Đăng Kí
                     </label>
@@ -206,7 +208,7 @@ export default function TableBien({ databienso }) {
                       value={formData.nguoidangki}
                     />
                   </div>
-                  <div className='flex flex-col pb-4'>
+                  <div className='flex flex-col pb-4 mb-2'>
                     <label htmlFor='mabien' className='text-2xl mb-3'>
                       Mã biển
                     </label>
@@ -218,6 +220,21 @@ export default function TableBien({ databienso }) {
                       required
                       onChange={(e) => setformData({ ...formData, mabien: e.target.value })}
                       value={formData.mabien}
+                    />
+                  </div>
+
+                  <div className='flex flex-col pb-4'>
+                    <label htmlFor='mabien' className='text-2xl mb-3'>
+                      Mã thẻ
+                    </label>
+                    <input
+                      type='text'
+                      className='border p-3 rounded-lg outline-none'
+                      id='mathe'
+                      name='mathe'
+                      required
+                      onChange={(e) => setformData({ ...formData, mathe: e.target.value })}
+                      value={formData.mathe}
                     />
                   </div>
 

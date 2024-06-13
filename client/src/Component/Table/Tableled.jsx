@@ -82,7 +82,7 @@ export default function Tableled({ dataled }) {
   }
   return (
     <div className=''>
-      <Link to='/createLed' className='inline-block'>
+      <Link to='/admin/createLed' className='inline-block'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -193,7 +193,7 @@ export default function Tableled({ dataled }) {
             <div className='fixed inset-0 flex items-center justify-center bg-blue-200 bg-opacity-60'>
               <div className='w-[500px] p-5 bg-gray-50 rounded-lg shadow-lg'>
                 <div className='text-3xl text-blue-600 font-bold mb-10 mt-3'>
-                  <h1>Cập nhật Đèn led </h1>
+                  <h1>Cập nhật thiết bị </h1>
                 </div>
                 <form onSubmit={handleSubmitUpdate}>
                   <div className='flex flex-col mb-10'>

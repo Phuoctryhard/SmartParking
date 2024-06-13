@@ -18,6 +18,7 @@ class Bienso:
                 'id': book[0],
                 'mabien': book[1],
                 'nguoidangki': book[2],
+                'mathe': book[3],
             }
             books_list.append(book_dict)
         # Chuyển đổi danh sách sách sang định dạng JSON
@@ -40,11 +41,11 @@ class Bienso:
             # Ví dụ: logging, thông báo cho người dùng về lỗi cụ thể
             return {"Message": "Xóa biển số thất bại: " + str(err)}
 
-    def updateBienso(self, id, mabien, nguoidangki):
+    def updateBienso(self, id, mabien, nguoidangki, mathe):
         try:
             db, cursor = self.db.get_connection()
             cursor.execute(
-                "UPDATE biensoxe SET mabien = %s , nguoidangki = %s WHERE id = %s", (mabien, nguoidangki, id))
+                "UPDATE biensoxe SET mabien = %s , nguoidangki = %s, mathe = %s WHERE id = %s", (mabien, nguoidangki, mathe, id))
             db.commit()
             return True
         except Exception as err:

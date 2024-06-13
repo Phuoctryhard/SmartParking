@@ -42,7 +42,7 @@ export default function FunctionList() {
                 <div className=''>
                   <div className='grid grid-cols-1 gap-y-4'>
                     <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                      <Link to='/parkinglot' className='flex justify-between '>
+                      <Link to='/user/parkinglot' className='flex justify-between '>
                         <div className='flex items-center text-xl '>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -81,7 +81,7 @@ export default function FunctionList() {
                     </div>
 
                     <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                      <Link to='/dht11' className='flex justify-between '>
+                      <Link to='/user/dht11' className='flex justify-between '>
                         <div className='flex items-center text-xl '>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -115,7 +115,7 @@ export default function FunctionList() {
                     </div>
 
                     <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                      <Link to='/register_licese' className='flex justify-between '>
+                      <Link to='/user/register_licese' className='flex justify-between '>
                         <div className='flex items-center text-xl '>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -154,7 +154,7 @@ export default function FunctionList() {
                     </div>
 
                     <div className='bg-white shadow-lg p-2 rounded-2xl mt-5'>
-                      <Link to='/led' className='flex justify-between '>
+                      <Link to='/user/led' className='flex justify-between '>
                         <div className='flex items-center text-xl '>
                           <svg
                             className='w-6 h-6 text-cyan-400 mr-3'

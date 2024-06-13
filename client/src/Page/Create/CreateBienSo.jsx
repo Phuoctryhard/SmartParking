@@ -7,7 +7,8 @@ import { toast } from 'react-toastify'
 export default function CreateBienSo() {
   const [formData, setformData] = useState({
     nguoidangki: '',
-    mabien: ''
+    mabien: '',
+    mathe: ''
   })
   const navigate = useNavigate() // Khởi tạo useNavigate hook
 
@@ -15,7 +16,19 @@ export default function CreateBienSo() {
     mutationFn: BiensoxeApi.createBienso,
     onSuccess: () => {
       toast.success('Thêm thành công biển số')
-      navigate('/') // Chuyển hướng về trang chính (home) sau khi thành công
+      navigate('/admin') // Chuyển hướng về trang chính (home) sau khi thành công
+    },
+    onError: (error) => {
+      if (error.response && error.response.status === 409) {
+        if (error.response.data === 'Biển số đã tồn tại') {
+          toast.error('Biển số đã tồn tại')
+        } else {
+          toast.error('Lỗi: ' + error.response.data)
+        }
+      } else {
+        toast.error('Đã xảy ra lỗi khi tạo')
+        console.error(error)
+      }
     }
   })
   const handleSubmit = (event) => {
@@ -34,7 +47,7 @@ export default function CreateBienSo() {
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col mb-10'>
             <label htmlFor='name' className='text-2xl mb-3 '>
-              Tên
+              Người Đăng Kí
             </label>
             <input
               type='text'
@@ -58,6 +71,21 @@ export default function CreateBienSo() {
               required
               onChange={(e) => setformData({ ...formData, mabien: e.target.value })}
               value={formData.mabien}
+            />
+          </div>
+
+          <div className='flex flex-col pb-4'>
+            <label htmlFor='mabien' className='text-2xl mb-3'>
+              Mã Thẻ
+            </label>
+            <input
+              type='text'
+              className='border p-3 rounded-lg outline-none'
+              id='mathe'
+              name='mathe'
+              required
+              onChange={(e) => setformData({ ...formData, mathe: e.target.value })}
+              value={formData.the}
             />
           </div>
 
