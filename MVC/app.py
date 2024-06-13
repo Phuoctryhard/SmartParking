@@ -9,8 +9,12 @@ from flask_mail import Mail
 from models.user import User
 from flask_cors import CORS, cross_origin
 import requests
-# from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+import sys
+sys.path.insert(0, r'D:\Code_school_nam3ki2\SmartParking\AI\scripts')
+# from kiemtra_mathe import KiemTraThe_2
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 CORS(app, supports_credentials=True,
      resources={r"/*": {"origins": "*"}})
 # Cấu hình đối tượng
@@ -27,7 +31,15 @@ configure_jwt(app)
 app.register_blueprint(product_bp, url_prefix='/biensoxe')
 app.register_blueprint(led_bp, url_prefix='/led')
 # đăng kí
+# @app.route('/<uid>', methods=['GET'])
+# def CheckThe(uid):
+#     KiemTraThe_2("84-f3-eb-75-b0-2e", uid)
+#     return "OK"
 
+# @app.route("/Cam", methods=['GET'])
+# def open_camera_detect():
+#     camera_detect(model_character, "84-f3-eb-75-b0-2e")
+#     return "OK"
 
 @app.route('/user/adduser', methods=['POST'])
 def register():
