@@ -6,16 +6,16 @@ export default function Header() {
   const [bien, setBien] = useState('')
   useEffect(() => {
     console.log(pathname)
-    if (pathname === '/Login') {
+    if (pathname === '/Login' || pathname === '/login' || '') {
       setBien('Đăng Nhập')
-    } else {
+    } else if (pathname === '/Register') {
       setBien('Đăng Kí')
     }
   }, [pathname])
 
   console.log(bien)
 
-  return (  
+  return (
     <div className='bg-white'>
       <div className='flex  items-end p-5'>
         <nav className='overflow-hidden '>

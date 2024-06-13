@@ -1,4 +1,6 @@
 from models.db import Database
+
+
 class User:
     def __init__(self):
         self.db = Database()
@@ -18,9 +20,11 @@ class User:
             }
             users_list.append(user_dict)
         return users_list
-    def create_user(self,gmail,password,role):
+
+    def create_user(self, gmail, password, role, name):
         db, cursor = self.db.get_connection()
-        cursor.execute("INSERT INTO user (gmail,password,role) VALUES (%s ,%s,%s)",(gmail,password,role))
+        cursor.execute("INSERT INTO user (gmail,password,role,name) VALUES (%s ,%s,%s,%s)",
+                       (gmail, password, role, name))
         db.commit()
 
     def check_user_existence(self, gmail):
@@ -31,9 +35,10 @@ class User:
             return True
         else:
             return False
-    def signup(self,gmail,password):
+
+    def signup(self, gmail, password):
         db, cursor = self.db.get_connection()
-        sql = "SELECT gmail, role  FROM user WHERE gmail = %s AND password = %s"
+        sql = "SELECT gmail, role,name FROM user WHERE gmail = %s AND password = %s"
         val = (gmail, password)
         cursor.execute(sql, val)
         result = cursor.fetchone()

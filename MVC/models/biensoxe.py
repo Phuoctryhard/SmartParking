@@ -18,15 +18,16 @@ class Bienso:
                 'id': book[0],
                 'mabien': book[1],
                 'nguoidangki': book[2],
+                'mathe': book[3],
             }
             books_list.append(book_dict)
         # Chuyển đổi danh sách sách sang định dạng JSON
         return books_list
 
-    def createBienso(self, mabien, nguoidangki):
+    def createBienso(self, mabien, nguoidangki, mathe):
         db, cursor = self.db.get_connection()
         cursor.execute(
-            "INSERT INTO biensoxe(mabien,nguoidangki) VALUES (%s,%s)", (mabien, nguoidangki))
+            "INSERT INTO biensoxe(mabien,nguoidangki,mathe) VALUES (%s,%s,%s)", (mabien, nguoidangki, mathe))
         db.commit()
 
     def deleteBienso(self, id):
@@ -40,11 +41,11 @@ class Bienso:
             # Ví dụ: logging, thông báo cho người dùng về lỗi cụ thể
             return {"Message": "Xóa biển số thất bại: " + str(err)}
 
-    def updateBienso(self, id, mabien, nguoidangki):
+    def updateBienso(self, id, mabien, nguoidangki, mathe):
         try:
             db, cursor = self.db.get_connection()
             cursor.execute(
-                "UPDATE biensoxe SET mabien = %s , nguoidangki = %s WHERE id = %s", (mabien, nguoidangki, id))
+                "UPDATE biensoxe SET mabien = %s , nguoidangki = %s, mathe = %s WHERE id = %s", (mabien, nguoidangki, mathe, id))
             db.commit()
             return True
         except Exception as err:
@@ -57,8 +58,9 @@ class Bienso:
         if bienso:
             return True
         return False
-    
+
     def getby_mathe(self, mathe):
+        print(mathe)
         db, cursor = self.db.get_connection()
         cursor.execute("SELECT * FROM biensoxe WHERE mathe = %s", (mathe,))
         bienso = cursor.fetchone()

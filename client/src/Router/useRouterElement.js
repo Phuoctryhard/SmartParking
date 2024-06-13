@@ -72,11 +72,11 @@ export default function useRouterElement() {
       element: <ProtectRoute />,
       children: [
         {
-          path: '/led',
+          path: '/user/led',
           element: <Led />
         },
         {
-          path: '/parkinglot',
+          path: '/user/parkinglot',
           element: <ParkingLot />
         },
         {
@@ -84,16 +84,28 @@ export default function useRouterElement() {
           element: <DHT11 />
         },
         {
+          path: '/user/dht11',
+          element: <DHT11 />
+        },
+        {
+          path: '/admin/createBienso',
+          element: <CreateBienSo />
+        },
+        {
           path: '/create',
           element: <CreateBienSo />
         },
         {
-          path: '/createLed',
+          path: '/admin/createLed',
           element: <CreateLed />
         },
         {
-          path: 'register_licese',
+          path: '/user/register_licese',
           element: <RegisterLicense />
+        },
+        {
+          path: '/admin',
+          element: <Admin />
         }
       ]
     },
@@ -102,9 +114,9 @@ export default function useRouterElement() {
       // nhận diện thằng nào là chính  index : true
       index: true,
       element: (
-        <AdminLayout>
-          <Admin />
-        </AdminLayout>
+        <MainLayout>
+          <FunctionList />
+        </MainLayout>
       )
     }
   ])

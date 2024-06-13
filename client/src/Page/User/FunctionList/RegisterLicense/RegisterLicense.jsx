@@ -3,20 +3,35 @@ import BiensoxeApi from '../../../../Api/biensoxe'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css'
 export default function RegisterLicense() {
   const navigate = useNavigate()
   const [dangkiBien, setDangkiBien] = useState({
     nguoidangki: '',
-    mabien: ''
+    mabien: '',
+    mathe: ''
   })
   const mutateDangki = useMutation({
     mutationFn: (body) => BiensoxeApi.createBienso(body),
-    onSuccess: () => {
-      toast.success('Thêm thành công Biển số')
+    onSuccess: (data) => {
+      console.log(data.data)
+      toast.success(data.data.message)
       navigate('/user')
+    },
+    onError: (error) => {
+      if (error.response && error.response.status === 409) {
+        if (error.response.data === 'Biển số đã tồn tại') {
+          toast.error('Biển số đã tồn tại')
+        } else {
+          toast.error('Lỗi: ' + error.response.data)
+        }
+      } else {
+        toast.error('Đã xảy ra lỗi khi tạo')
+        console.error(error)
+      }
     }
   })
-  
+
   const handleSubmit = (event) => {
     // console.log('oki dki bien so')
     event.preventDefault()
@@ -60,6 +75,20 @@ export default function RegisterLicense() {
               id='ma-bien'
               name='mabien'
               value={dangkiBien.mabien}
+              className='p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className='flex flex-col'>
+            <label htmlFor='ma-bien' className='text-lg font-semibold'>
+              Mã số thẻ
+            </label>
+            <input
+              type='text'
+              id='ma-the'
+              name='mathe'
+              value={dangkiBien.mathe}
               className='p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
               onChange={handleChange}
             />

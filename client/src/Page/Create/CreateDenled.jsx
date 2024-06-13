@@ -16,8 +16,20 @@ export default function CreateLed() {
   const createBienso = useMutation({
     mutationFn: LedApi.createLed,
     onSuccess: () => {
-      toast.success('Thêm thành công Led')
-      navigate('/') // Chuyển hướng về trang chính (home) sau khi thành công
+      toast.success('Thêm thành công')
+      navigate('/admin') // Chuyển hướng về trang chính (home) sau khi thành công
+    },
+    onError: (error) => {
+      if (error.response && error.response.status === 409) {
+        if (error.response.data === 'LED with this Pin already exists') {
+          toast.error('Thiết bị đã tồn tại')
+        } else {
+          toast.error('Lỗi: ' + error.response.data)
+        }
+      } else {
+        toast.error('Đã xảy ra lỗi khi tạo')
+        console.error(error)
+      }
     }
   })
   const handleSubmit = (event) => {
@@ -30,7 +42,7 @@ export default function CreateLed() {
     <div className='m-full min-h-screen bg-blue-300 flex items-center justify-center'>
       <div className='w-[500px] p-5 bg-gray-50 rounded-lg shadow-lg'>
         <div className='text-4xl text-blue-600 font-bold mb-10'>
-          <h1>Thêm Led</h1>
+          <h1>Thêm Thiết bị</h1>
         </div>
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col mb-10'>

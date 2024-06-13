@@ -21,7 +21,7 @@ export default function AvatarMain() {
       </div>
     </div>
   )
-  const isLogin = true // Assuming the user is logged in
+  const isLogin = localStorage.getItem('token') !== null
   return (
     // Handling when logged in
     <>
@@ -32,17 +32,17 @@ export default function AvatarMain() {
           </Popover>
 
           <div className='font-bold text-xl'>
-            <span className='text-sm'>Xin Chào,</span> Ngô Đình Phước
+            <span className='text-sm'>Xin Chào,</span> {localStorage.getItem('gmail')}
           </div>
         </div>
       )}
       {!isLogin && (
-        <div className='flex items-center '>
-          <Link to='/register ' className='text-xl'>
-            Đăng Kí{' '}
+        <div className='flex items-center  '>
+          <Link to='/register ' className='text-2xl hover:text-orange'>
+            Đăng Kí
           </Link>
           <div className='h-4 w-[1px] bg-black mx-2 '></div>
-          <Link to='/login' className='text-xl'>
+          <Link to='/login' className='text-2xl hover:text-orange'>
             Đăng Nhập
           </Link>
         </div>

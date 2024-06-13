@@ -15,6 +15,8 @@ sys.path.insert(0, r'D:\Code_school_nam3ki2\SmartParking\AI\scripts')
 # from kiemtra_mathe import KiemTraThe_2
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True,
+     resources={r"/*": {"origins": "*"}})
 # Cấu hình đối tượng
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -43,13 +45,14 @@ app.register_blueprint(led_bp, url_prefix='/led')
 def register():
     gmail = request.json['gmail']
     password = request.json['password']
+    name = request.json['name']
     role = 'user'
     if model.check_user_existence(gmail):
         return jsonify({'message': 'User already exists'}), 409
     else:
         try:
             role = "user"
-            model.create_user(gmail, password, role)
+            model.create_user(gmail, password, role, name)
             msg = Message("Đăng kí Tài Khoản Website Thành Công ",
                           sender='nguyenhuynhan.dn@gmail.com', recipients=[gmail])
             msg.body = f"Username:{gmail}  \nPassword: {password} "
@@ -60,6 +63,8 @@ def register():
             return jsonify({'error': 'Failed to register user', 'details': str(e)}), 500
 
 # Route để kiểm tra khí gas
+
+
 @app.route('/check_gas', methods=['POST'])
 def check_gas_route():
     data = request.get_json()
@@ -71,8 +76,8 @@ def check_gas_route():
         return jsonify('Gas level is too high! Fire alert!')
     return jsonify({'alert': alert})
 
-# Hàm tiện ích để cung cấp đối tượng mail cho controller
+
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 4000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, port=port)

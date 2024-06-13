@@ -33,10 +33,10 @@ def signup():
         password = request.json['password']
         result = model.signup(username, password)
         if result:
-            gmail, role = result  # Trích xuất thông tin về email và role từ kết quả truy vấn
+            gmail, role, name = result  # Trích xuất thông tin về email và role từ kết quả truy vấn
             access_token = create_access_token(identity=username)
             refresh_token = create_refresh_token(identity=username)
-            return jsonify({"gmail": gmail, "token": access_token, "role": role, "refresh": refresh_token}), 200
+            return jsonify({"gmail": gmail, "token": access_token, "role": role, "refresh": refresh_token, "name": name}), 200
         else:
             return jsonify({"message": "Invalid username or password"}), 401
     except Exception as err:
