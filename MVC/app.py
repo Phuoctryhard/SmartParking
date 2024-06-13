@@ -10,9 +10,11 @@ from models.user import User
 from flask_cors import CORS, cross_origin
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
+import sys
+sys.path.insert(0, r'D:\Code_school_nam3ki2\SmartParking\AI\scripts')
+# from kiemtra_mathe import KiemTraThe_2
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-
 # Cấu hình đối tượng
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -27,7 +29,15 @@ configure_jwt(app)
 app.register_blueprint(product_bp, url_prefix='/biensoxe')
 app.register_blueprint(led_bp, url_prefix='/led')
 # đăng kí
+# @app.route('/<uid>', methods=['GET'])
+# def CheckThe(uid):
+#     KiemTraThe_2("84-f3-eb-75-b0-2e", uid)
+#     return "OK"
 
+# @app.route("/Cam", methods=['GET'])
+# def open_camera_detect():
+#     camera_detect(model_character, "84-f3-eb-75-b0-2e")
+#     return "OK"
 
 @app.route('/user/adduser', methods=['POST'])
 def register():
@@ -59,10 +69,10 @@ def check_gas_route():
     if gas_value > 400:
         alert = True
         return jsonify('Gas level is too high! Fire alert!')
-
     return jsonify({'alert': alert})
+
 # Hàm tiện ích để cung cấp đối tượng mail cho controller
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 4000))
-    app.run(debug=True, host='localhost', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
