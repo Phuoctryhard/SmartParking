@@ -44,6 +44,7 @@ app.register_blueprint(led_bp, url_prefix='/led')
 @app.route('/user/adduser', methods=['POST'])
 def register():
     gmail = request.json['gmail']
+    print(gmail)
     password = request.json['password']
     name = request.json['name']
     role = 'user'
@@ -80,4 +81,4 @@ def check_gas_route():
 app.register_blueprint(user_bp, url_prefix='/')
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 4000))
-    app.run(debug=True, host= "0.0.0.0", port=port)
+    app.run(debug=True, host="0.0.0.0", port=port)

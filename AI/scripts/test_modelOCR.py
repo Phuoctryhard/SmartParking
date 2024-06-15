@@ -16,7 +16,7 @@ from models.biensoxe import Bienso
 bs = Bienso()
 
 config_path = r'D:\Code_school_nam3ki2\SmartParking\AI\model\detect_license_plate\pipeline.config'
-model_character_path = r'D:\Code_school_nam3ki2\SmartParking\AI\model\classfication_character\model_license_plate_v9.h5'
+model_character_path = r'D:\Code_school_nam3ki2\SmartParking\AI\model\classfication_character\model_license_plate_v15.h5'
 label_path = r'D:\Code_school_nam3ki2\SmartParking\AI\config\label_map.pbtxt'
 checkpoint_path = r'D:\Code_school_nam3ki2\SmartParking\AI\model\detect_license_plate\checkpoint\ckpt-0'
 
@@ -181,65 +181,62 @@ def segmentation_character(binary, img, img_crop, model_character, X, Y, W, H, t
                                      int(h*3/10-w/2):x + w+int(h*3/10-w/2)]
                 candidates.append((x, y, character))
 
-    if candidates[-1][1]/float(candidates[0][1]) > 2:
-        list_character_first = []
-        list_character_second = []
-        first_lines = [item for item in candidates if (
-            candidates[-1][1]/float(item[1])) >= 2.0]
-        second_lines = [item for item in candidates if (
-            candidates[-1][1]/float(item[1])) < 2.0]
-        first_lines.sort(key=lambda item: item[0])
-        first_lines = [item for item in first_lines]
-        second_lines.sort(key=lambda item: item[0])
-        second_lines = [item for item in second_lines]
-        for first_line in first_lines:
-            list_character_first.append(
-                predict_image_2(first_line[2], model_character))
+    # if candidates[-1][1]/float(candidates[0][1]) > 2:
+    #     list_character_first = []
+    #     list_character_second = []
+    #     first_lines = [item for item in candidates if (
+    #         candidates[-1][1]/float(item[1])) >= 2.0]
+    #     second_lines = [item for item in candidates if (
+    #         candidates[-1][1]/float(item[1])) < 2.0]
+    #     first_lines.sort(key=lambda item: item[0])
+    #     first_lines = [item for item in first_lines]
+    #     second_lines.sort(key=lambda item: item[0])
+    #     second_lines = [item for item in second_lines]
+    #     for first_line in first_lines:
+    #         list_character_first.append(
+    #             predict_image_2(first_line[2], model_character))
 
-        for idx, (x, y, char) in enumerate(first_lines):
-            # Vẽ hình chữ nhật bao quanh ký tự
-            cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
-                          char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
+    #     for idx, (x, y, char) in enumerate(first_lines):
+    #         # Vẽ hình chữ nhật bao quanh ký tự
+    #         cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
+    #                       char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
 
-        # Hiển thị ký tự lên ảnh
-            cv2.putText(img, list_character_first[idx], (
-                x+int(X)-3, y + int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    #     # Hiển thị ký tự lên ảnh
+    #         cv2.putText(img, list_character_first[idx], (
+    #             x+int(X)-3, y + int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-        for second_line in second_lines:
+    #     for second_line in second_lines:
 
-            list_character_second.append(
-                predict_image_2(second_line[2], model_character))
-        list_character.extend(list_character_first)
-        list_character.extend(list_character_second)
-        for idx, (x, y, char) in enumerate(second_lines):
-            # Vẽ hình chữ nhật bao quanh ký tự
-            cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
-                          char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
+    #         list_character_second.append(
+    #             predict_image_2(second_line[2], model_character))
+    #     list_character.extend(list_character_first)
+    #     list_character.extend(list_character_second)
+    #     for idx, (x, y, char) in enumerate(second_lines):
+    #         # Vẽ hình chữ nhật bao quanh ký tự
+    #         cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
+    #                       char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
 
-        # Hiển thị ký tự lên ảnh
-            cv2.putText(img, list_character_second[idx], (
-                x+int(X)-3, y + int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    #     # Hiển thị ký tự lên ảnh
+    #         cv2.putText(img, list_character_second[idx], (
+    #             x+int(X)-3, y + int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    # Hiển thị ảnh với các ký tự đã nhận dạng được vẽ lên
-        # cv2.imshow("Detected Characters", img)
-    else:
-        candidates.sort(key=lambda item: item[0])
-        candidates = [item for item in candidates]
-        for character in candidates:
-            list_character.append(predict_image_2(
-                character[2], model_character))
-        for idx, (x, y, char) in enumerate(candidates):
-            # Vẽ hình chữ nhật bao quanh ký tự
-            cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
-                          char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
+    # # Hiển thị ảnh với các ký tự đã nhận dạng được vẽ lên
+    #     # cv2.imshow("Detected Characters", img)
+    # else:
+    candidates.sort(key=lambda item: item[0])
+    candidates = [item for item in candidates]
+    for character in candidates:
+        list_character.append(predict_image_2(
+            character[2], model_character))
+    for idx, (x, y, char) in enumerate(candidates):
+        # Vẽ hình chữ nhật bao quanh ký tự
+        cv2.rectangle(img, (x+int(X)-4, y+int(Y)-3), (x+int(X) +
+                        char.shape[1] - 6, y+int(Y) + char.shape[0] - 5), (0, 255, 0), 2)
 
-        # Hiển thị ký tự lên ảnh
-            cv2.putText(img, list_character[idx], (x+int(X)-3, y +
-                        int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    # Hiển thị ký tự lên ảnh
+        cv2.putText(img, list_character[idx], (x+int(X)-3, y +
+                    int(Y)-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-        # Hiển thị ảnh với các ký tự đã nhận dạng được vẽ lên
-        # cv2.imshow("Detected Characters", img)
-    # cv2.imshow("Detected Characters", img)
     if type == 0:
         cv2.waitKey()
         cv2.destroyAllWindows()
@@ -264,10 +261,12 @@ def predict_image(image_path, model):
 
 def predict_image_2(img, model):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    resized_img = cv2.resize(gray_img, (40, 30))
+    # resized_img = cv2.resize(gray_img, (30, 40))
+    resized_img = cv2.resize(gray_img, (30, 40))
     img_array = np.array(resized_img)
     img_array = img_array/255.0
-    img_input = img_array.reshape((-1, 30, 40, 1))
+    # img_input = img_array.reshape((-1, 40, 30, 1))
+    img_input = img_array.reshape((-1, 40, 30, 1))
     pred = model.predict(img_input)
     labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
               'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -386,9 +385,13 @@ def camera_detect(model_character, Mac_address):
                                 continue
                             img_crop, X, Y, W, H = get_detections(img, results)
                             if img_crop is not None:
-                                binary = pre_process(img_crop, W)
+                                img_crop_rotation = rotation_img_crop(img_crop, preprocess_img_crop(img_crop))
+                                binary = pre_process(img_crop_rotation, W)
                                 list_character, image_res = segmentation_character(
-                                    binary, img, img_crop, model_character, X, Y, W, H, 1)
+                                    binary, img, img_crop_rotation, model_character, X, Y, W, H, 1)
+                                # binary = pre_process(img_crop, W)
+                                # list_character, image_res = segmentation_character(
+                                #     binary, img, img_crop, model_character, X, Y, W, H, 1)
                                 img_show = image_res.copy()
                                 cv2.imshow('image_np_with_detections', img_show)
                                 print(f"Biển số: {list_character}")
@@ -409,6 +412,9 @@ def camera_detect(model_character, Mac_address):
                             if cv2.waitKey(10) == ord('q'):
                                 break
                         except Exception as e:
+                            cv2.imshow('image_np_with_detections', img_show)
+                            if cv2.waitKey(10) == ord('q'):
+                                    break
                             print(f"Đã xảy ra lỗi: {e}")
                     cap.release()
                     cv2.destroyAllWindows()

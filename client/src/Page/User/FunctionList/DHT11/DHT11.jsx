@@ -6,7 +6,7 @@ import Gauge from './Gauge'
 
 export default function DHT11() {
   // var espServer = 'http://10.10.49.247'
-  const espServer = 'http://192.168.255.43'
+  const espServer = 'http://172.20.10.6'
   const [temp, setTemp] = useState('')
   const [humid, setHumid] = useState('')
   const [khigas, setkhigas] = useState(0)

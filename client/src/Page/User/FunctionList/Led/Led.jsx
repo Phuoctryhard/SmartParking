@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { BsLightbulbOffFill } from 'react-icons/bs'
 // const espServer = 'http://192.168.1.36'
 // const espServer = 'http://10.10.49.247'
-const espServer = 'http://192.168.255.43'
+const espServer = 'http://172.20.10.6'
 // const espServer = 'http://192.168.255.165'
 export default function Led() {
   const { data, isLoading, isError } = useQuery({
