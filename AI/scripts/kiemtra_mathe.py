@@ -50,6 +50,8 @@ def get_mathe_from_esp8266(Mac_address):
         response = requests.get(url)
         if response.status_code == 200:
             text = response.text
+
+            print(f"text: {text}")
             return text
         else:
             print(f"Lỗi khi gửi dữ liệu: {response.status_code}")
